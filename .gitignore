@@ -1,0 +1,15 @@
+.vscode
+.idea
+node_modules
+dist
+
+!public
+!src
+!.gitignore
+!index.html
+!package.json
+!package-lock.json
+!README.md
+!tsconfig.json
+!tsconfig.node.json
+!vite.config.ts
