@@ -2,6 +2,7 @@ import {reactive, ref} from "vue";
 import {validatePassword, validateUsername} from "@/utils/validate";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
+import {FormInstance, FormRules} from 'element-plus';
 
 export const adminLogin = () => {
     // 登录表单数据
@@ -15,14 +16,16 @@ export const adminLogin = () => {
         if (!validateUsername(value)) {
             callback(new Error('请输入正确用户名'));
         }
+        callback();
     };
     const passwordValidate = (rule: any, value: any, callback: any) => {
         if (!validatePassword(value)) {
             callback(new Error('密码长度不小于3'));
         }
+        callback();
     };
     // 登录校验规则
-    const loginRules = reactive({
+    const loginRules = reactive<FormRules>({
         username: [
             {
                 required: true,
@@ -39,24 +42,24 @@ export const adminLogin = () => {
         ]
     });
     // 执行登录逻辑
+    const loginFormRef = ref<FormInstance>();
     const store = useStore();
     const router = useRouter();
-    const handleLogin = ()=> {
-        isLoading.value = true;
-        store.dispatch('Login', loginForm).then(() => {
-            isLoading.value = false;
-            router.push({path: '/'});
-        }).catch(() => {
-            isLoading.value = false;
-        })
+    const submitForm = (formEl: FormInstance) => {
+        if (!formEl) return;
+        formEl.validate((valid: boolean) => {
+            if (valid) {
+                store.dispatch('Login', loginForm).then(response => {
+                    router.push({path: '/'});
+                });
+            }
+        });
     };
     return {
         loginForm,
-        isLoading,
         loginRules,
-        handleLogin,
+        loginFormRef,
+        isLoading,
+        submitForm,
     }
 }
-
-
-
