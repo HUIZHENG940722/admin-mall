@@ -1,9 +1,9 @@
 import {createStore} from 'vuex';
-import admin from "@/store/modules/admin";
+import adminStore from "@/store/modules/adminStore";
 
 const store = createStore({
     modules: {
-        admin,
+        adminStore,
     },
 });
 

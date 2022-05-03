@@ -5,7 +5,7 @@ import {useRouter} from "vue-router";
 import {FormInstance, FormRules} from 'element-plus';
 import {setCookie} from "@/utils/cookieUtils";
 
-export const adminLogin = () => {
+export const adminLoginService = () => {
     // 登录表单数据
     const loginForm = reactive({
         username: '',

@@ -1,8 +1,8 @@
-import {login} from "@/api/admin";
+import {login} from "@/api/adminApi";
 import {AxiosResponse} from "axios";
 import {setToken, getToken} from '@/utils/cookieUtils';
 
-const admin = {
+const adminStore = {
     state: {
         token: getToken(),
     },
@@ -31,4 +31,4 @@ const admin = {
     }
 };
 
-export default admin;
+export default adminStore;

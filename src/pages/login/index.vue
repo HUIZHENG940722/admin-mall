@@ -29,9 +29,9 @@
 
 
 <script lang="ts" setup>
-import {adminLogin} from "@/composables/adminLogin";
+import {adminLoginService} from "@/composables/adminLoginService";
 
-const {loginForm, loginFormRef, loginRules, isLoading, submitForm} = adminLogin();
+const {loginForm, loginFormRef, loginRules, isLoading, submitForm} = adminLoginService();
 
 
 
