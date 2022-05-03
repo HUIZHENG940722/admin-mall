@@ -20,7 +20,7 @@
         </el-input>
       </el-form-item>
       <el-form-item style="margin-bottom: 60px;text-align: center">
-        <el-button style="width: 45%;" type="primary" :loading="loading" @click="handleLogin">登录</el-button>
+        <el-button style="width: 45%;" type="primary" :loading="loading.valueOf()" @click="handleLogin">登录</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -28,35 +28,51 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-const validateUsername = () => {
+import {validateUsername, validatePassword} from "@/utils/validate";
+import {useStore} from 'vuex';
+import {useRouter} from 'vue-router';
 
+const usernameValidate = (rule: any, value: any, callback: any) => {
+  if (!validateUsername(value)) {
+    callback(new Error('请输入正确用户名'));
+  }
 };
-const validatePassword = () => {
-
+const passwordValidate = (rule: any, value: any, callback: any) => {
+  if (!validatePassword(value)) {
+    callback(new Error('密码长度不小于3'));
+  }
 }
 const loginRules = reactive({
   username: [
     {
       required: true,
       trigger: 'blur',
-      validator: validateUsername
+      validator: usernameValidate
     },
+  ],
+  password: [
     {
       required: true,
       trigger: 'blur',
-      validator: validatePassword
+      validator: passwordValidate
     },
-  ],
-  password: []
+  ]
 });
 const loading = ref(false);
 const loginForm = reactive({
   username: '',
   password: ''
 });
-
+const store = useStore();
+const router = useRouter();
 const handleLogin = ()=> {
-
+  loading.value = true;
+  store.dispatch('Login', loginForm).then(() => {
+    loading.value = false;
+    router.push({path: '/'});
+  }).catch(() => {
+    loading.value = false;
+  })
 };
 
 </script>

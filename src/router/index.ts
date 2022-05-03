@@ -4,6 +4,10 @@ export const sharedRouteMap = [
     {
         path: '/login',
         component: () => import('@/pages/login/index.vue'),
+    },
+    {
+        path: '/',
+        component: () => import('@/pages/home/index.vue')
     }
 ];
 
