@@ -3,6 +3,7 @@ import {validatePassword, validateUsername} from "@/utils/validate";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {FormInstance, FormRules} from 'element-plus';
+import {setCookie} from "@/utils/cookieUtils";
 
 export const adminLogin = () => {
     // 登录表单数据
@@ -11,7 +12,7 @@ export const adminLogin = () => {
         password: ''
     });
     // 是否点击登录按钮
-    const isLoading = ref(false);
+    let isLoading = ref(false);
     const usernameValidate = (rule: any, value: any, callback: any) => {
         if (!validateUsername(value)) {
             callback(new Error('请输入正确用户名'));
@@ -49,9 +50,16 @@ export const adminLogin = () => {
         if (!formEl) return;
         formEl.validate((valid: boolean) => {
             if (valid) {
-                store.dispatch('Login', loginForm).then(response => {
+                store.dispatch('Login', loginForm).then(() => {
+                    isLoading.value = false;
+                    setCookie("username", loginForm.username.trim(), 15);
+                    setCookie("password", loginForm.password.trim(), 15);
                     router.push({path: '/'});
-                });
+                }).catch(() => {
+                    isLoading.value = false;
+                })
+            } else {
+                return false;
             }
         });
     };
