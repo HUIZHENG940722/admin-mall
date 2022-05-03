@@ -10,8 +10,8 @@ const admin = {
     },
     actions: {
         Login({}, userInfo: any) {
-            const username = userInfo.username;
-            const password = userInfo.password;
+            const username = userInfo.username.trim();
+            const password = userInfo.password.trim();
             return new Promise((resolve: any, reject: any) => {
                 login(username, password).then(function (response: AxiosResponse) {
                     const data = response.data;
