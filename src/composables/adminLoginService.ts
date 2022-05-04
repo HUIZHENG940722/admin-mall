@@ -43,9 +43,9 @@ export const adminLoginService = () => {
         ]
     });
     // 执行登录逻辑
-    const loginFormRef = ref<FormInstance>();
     const store = useStore();
     const router = useRouter();
+    const loginFormRef = ref<FormInstance>();
     const submitForm = (formEl: FormInstance) => {
         if (!formEl) return;
         formEl.validate((valid: boolean) => {

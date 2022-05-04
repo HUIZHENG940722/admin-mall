@@ -7,7 +7,13 @@ export const sharedRouteMap = [
     },
     {
         path: '/',
-        component: () => import('@/pages/home/index.vue')
+        component: () => import('@/pages/layout/index.vue'),
+        redirect: '/home',
+        children: [{
+            path: 'home',
+            name: 'home',
+            component: () => import('@/pages/home/index.vue'),
+        }]
     }
 ];
 
